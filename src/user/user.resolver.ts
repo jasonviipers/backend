@@ -1,8 +1,10 @@
 import { Mutation, Args, Int } from '@nestjs/graphql';
 import * as graphql from '@nestjs/graphql';
+import * as apollo from 'apollo-server-express';
 
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
+import { CreateUserArgs } from './base/CreateUserArgs';
 
 @graphql.Resolver(() => User)
 export class UserResolver {
@@ -18,25 +20,18 @@ export class UserResolver {
     return this.service.findOne({ where: { id } });
   }
 
-  // @graphql.Mutation(() => User)
-  // async createUser(
-  //   @Args({ name: 'user', type: () => User }) user: User,
-  // ): Promise<User> {
-  //   return this.userService.create({ data: user });
-  // }
-
-  // @graphql.Mutation(() => User)
-  // async updateUser(
-  //   @Args({ name: 'id', type: () => Int }) id: number,
-  //   @Args({ name: 'user', type: () => User }) user: User,
-  // ): Promise<User> {
-  //   return this.userService.updateUser({ where: { id }, data: user });
-  // }
-
   @graphql.Mutation(() => User)
   async deleteUser(
     @Args({ name: 'id', type: () => Int }) id: number,
   ): Promise<User> {
     return this.service.delete({ id: id });
   }
+
+  // @graphql.Mutation(() => User)
+  // async updateUser(
+  //   @Args({ name: 'id', type: () => Int }) id: number,
+  //   @Args({ name: 'data', type: () => CreateUserArgs }) data: CreateUserArgs,
+  // ): Promise<User> {
+  //   return this.service.update({ where: { id }, data });
+  // }
 }

@@ -15,10 +15,10 @@ export class AuthResolver {
     return this.authService.login(args.credentials);
   }
 
-  // @Mutation(() => UserInfo)
-  // async signup(@Args() args: RegisterArgs): Promise<UserInfo> {
-  //   return this.authService.signup({
-  //     ...args.credentials,
-  //   });
-  // }
+  @Mutation(() => UserInfo)
+  async signup(@Args() args: RegisterArgs): Promise<UserInfo> {
+    return this.authService.signup({
+      ...args.credentials,
+    });
+  }
 }
