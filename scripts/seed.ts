@@ -36,7 +36,9 @@ async function seed(bcryptSalt: Salt) {
   };
   await client.user.upsert({
     where: { email: data.email },
-    update: {},
+    update: {
+      ...data,
+    },
     create: data,
   });
   void client.$disconnect();
