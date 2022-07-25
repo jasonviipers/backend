@@ -1,0 +1,97 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("POSTGRESQL_URL")
+}
+
+model User {
+  id          Int           @id @default(autoincrement())
+  firstName   String
+  lastName    String
+  email       String        @unique
+  password    String
+  phone       String        @unique
+  address     String
+  roles       String[]
+  freelancer  Freelancer[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+  contract    Contract[]
+  mission     Mission[]
+  Recruitment Recruitment[]
+
+  @@map("users")
+}
+
+model Freelancer {
+  id             Int           @id @default(autoincrement())
+  siret          String        @unique
+  tva            String        @unique
+  iban           String        @unique
+  skills         String[]
+  certificates   String[]
+  User           User?         @relation(fields: [userId], references: [id])
+  userId         Int?
+  Availability   Availability? @relation(fields: [availabilityId], references: [id])
+  availabilityId Int?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @default(now())
+
+  @@map("freelancers")
+}
+
+model Contract {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+
+  @@map("contracts")
+}
+
+model Mission {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Int
+  location    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+
+  @@map("missions")
+}
+
+model Availability {
+  id          Int          @id @default(autoincrement())
+  start       DateTime
+  end         DateTime
+  isAvailable Boolean
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now())
+  Freelancer  Freelancer[]
+
+  @@map("availabilities")
+}
+
+model Recruitment {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  price       Int
+  location    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+
+  @@map("recruitments")
+}
