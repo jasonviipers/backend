@@ -1,9 +1,9 @@
-import { ObjectType, Field, Int } from '@nestjs/graphql';
+import { ObjectType, Field } from '@nestjs/graphql';
 
 @ObjectType()
 export class User {
-  @Field(() => Int)
-  id: number;
+  @Field(() => String)
+  id: string;
 
   @Field(() => String)
   firstName: string;
@@ -16,9 +16,6 @@ export class User {
 
   @Field(() => String)
   phone: string;
-
-  @Field(() => String)
-  address: string;
 
   @Field(() => [String])
   roles: Array<string>;

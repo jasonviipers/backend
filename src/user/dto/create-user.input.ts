@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsPhoneNumber } from 'class-validator';
 
 @InputType()
 export class CreateUserInput {
@@ -9,7 +9,6 @@ export class CreateUserInput {
     type: String,
   })
   @IsString()
-  @IsOptional()
   @Field(() => String, {
     nullable: true,
   })
@@ -20,11 +19,20 @@ export class CreateUserInput {
     type: String,
   })
   @IsString()
-  @IsOptional()
   @Field(() => String, {
     nullable: true,
   })
   lastName?: string | null;
+
+  @ApiProperty({
+    required: false,
+    type: String,
+  })
+  @IsString()
+  @Field(() => String, {
+    nullable: true,
+  })
+  email?: string | null;
 
   @ApiProperty({
     required: true,
@@ -48,7 +56,7 @@ export class CreateUserInput {
     required: true,
     type: String,
   })
-  @IsString()
+  @IsPhoneNumber()
   @Field(() => String)
-  email!: string;
+  phone!: string;
 }

@@ -1,6 +1,10 @@
 # compiled output
-/dist
+/build
 /node_modules
+build/
+
+# env
+.env
 
 # Logs
 logs

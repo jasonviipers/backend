@@ -8,20 +8,20 @@ datasource db {
 }
 
 model User {
-  id          Int           @id @default(autoincrement())
+  id          String        @id @default(cuid())
   firstName   String
   lastName    String
   email       String        @unique
   password    String
   phone       String        @unique
-  address     String
+  address     Address[]
   roles       String[]
   freelancer  Freelancer[]
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @default(now())
   contract    Contract[]
   mission     Mission[]
   Recruitment Recruitment[]
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
 
   @@map("users")
 }
@@ -34,7 +34,7 @@ model Freelancer {
   skills         String[]
   certificates   String[]
   User           User?         @relation(fields: [userId], references: [id])
-  userId         Int?
+  userId         String?
   Availability   Availability? @relation(fields: [availabilityId], references: [id])
   availabilityId Int?
   createdAt      DateTime      @default(now())
@@ -44,28 +44,34 @@ model Freelancer {
 }
 
 model Contract {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   title       String
   description String
+  signature   String
+  status      String[]
+  mission     Mission[]
   price       Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
-  User        User?    @relation(fields: [userId], references: [id])
-  userId      Int?
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
 
   @@map("contracts")
 }
 
 model Mission {
-  id          Int      @id @default(autoincrement())
+  id          Int        @id @default(autoincrement())
   title       String
   description String
   price       Int
-  location    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
-  User        User?    @relation(fields: [userId], references: [id])
-  userId      Int?
+  location    Location[]
+  User        User?      @relation(fields: [userId], references: [id])
+  userId      String?
+  Contract    Contract?  @relation(fields: [contractId], references: [id])
+  contractId  Int?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
 
   @@map("missions")
 }
@@ -75,9 +81,9 @@ model Availability {
   start       DateTime
   end         DateTime
   isAvailable Boolean
+  Freelancer  Freelancer[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @default(now())
-  Freelancer  Freelancer[]
 
   @@map("availabilities")
 }
@@ -88,10 +94,36 @@ model Recruitment {
   description String
   price       Int
   location    String
+  User        User?    @relation(fields: [userId], references: [id])
+  userId      String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
-  User        User?    @relation(fields: [userId], references: [id])
-  userId      Int?
 
   @@map("recruitments")
+}
+
+model Address {
+  id        Int      @id @default(autoincrement())
+  street    String
+  city      String
+  zip       String
+  country   String
+  User      User?    @relation(fields: [userId], references: [id])
+  userId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("addresses")
+}
+
+model Location {
+  id        Int      @id @default(autoincrement())
+  latitude  Float
+  longitude Float
+  Mission   Mission? @relation(fields: [missionId], references: [id])
+  missionId Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@map("locations")
 }

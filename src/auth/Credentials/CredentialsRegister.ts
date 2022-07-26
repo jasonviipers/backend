@@ -45,11 +45,11 @@ export class CredentialsRegister implements Partial<User> {
   @IsString()
   password!: string;
 
-  @ApiProperty({
-    required: true,
-    type: String,
-  })
-  @Field(() => String, { nullable: false })
-  @IsString()
-  address?: string;
+  // @ApiProperty({
+  //   required: true,
+  //   type: String,
+  // })
+  // @Field(() => String, { nullable: false })
+  // @IsString()
+  // address?: string;
 }

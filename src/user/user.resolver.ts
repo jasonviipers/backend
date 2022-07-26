@@ -13,6 +13,10 @@ import { AclFilterResponseInterceptor } from 'src/interceptors/aclFilterResponse
 import { AclValidateRequestInterceptor } from 'src/interceptors/aclValidateRequest.interceptor';
 import { UpdateUserArgs } from './base/UpdateUserArgs';
 import { isRecordNotFoundError } from 'src/prisma.util';
+import { UserFindManyArgs } from './base/UserFindManyArgs';
+import { UserFindUniqueArgs } from './base/UserFindUniqueArgs';
+import { CreateUserArgs } from './base/CreateUserArgs';
+import { DeleteUserArgs } from './base/DeleteUserArgs';
 
 @graphql.Resolver(() => User)
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
@@ -30,8 +34,9 @@ export class UserResolver {
     action: 'read',
     possession: 'any',
   })
-  async users(): Promise<User[]> {
-    return this.service.findMany({});
+  @graphql.Query(() => [User])
+  async users(@graphql.Args() args: UserFindManyArgs): Promise<User[]> {
+    return this.service.findMany(args);
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
@@ -41,12 +46,49 @@ export class UserResolver {
     action: 'read',
     possession: 'own',
   })
-  async user(@Args({ name: 'id', type: () => Int }) id: number): Promise<User> {
-    const result = await this.service.findOne({ where: { id } });
+  async user(@graphql.Args() args: UserFindUniqueArgs): Promise<User | null> {
+    const result = await this.service.findOne(args);
     if (result === null) {
       return null;
     }
     return result;
+  }
+
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => User)
+  @nestAccessControl.UseRoles({
+    resource: 'User',
+    action: 'create',
+    possession: 'any',
+  })
+  async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
+    return await this.service.create({
+      ...args,
+      data: args.data,
+    });
+  }
+
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => User)
+  @nestAccessControl.UseRoles({
+    resource: 'User',
+    action: 'update',
+    possession: 'any',
+  })
+  async updateUser(@graphql.Args() args: UpdateUserArgs): Promise<User | null> {
+    try {
+      return await this.service.update({
+        ...args,
+        data: args.data,
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new apollo.ApolloError(
+          `No resource was found for ${JSON.stringify(args.where)}`,
+        );
+      }
+      throw error;
+    }
   }
 
   @graphql.Mutation(() => User)
@@ -55,29 +97,16 @@ export class UserResolver {
     action: 'delete',
     possession: 'any',
   })
-  async deleteUser(
-    @Args({ name: 'id', type: () => Int }) id: number,
-  ): Promise<User> {
-    return this.service.delete({ id: id });
+  async deleteUser(@graphql.Args() args: DeleteUserArgs): Promise<User | null> {
+    try {
+      return await this.service.delete(args);
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new apollo.ApolloError(
+          `No resource was found for ${JSON.stringify(args.where)}`,
+        );
+      }
+      throw error;
+    }
   }
-
-  // @common.UseInterceptors(AclValidateRequestInterceptor)
-  // @graphql.Mutation(() => User)
-  // @nestAccessControl.UseRoles({
-  //   resource: 'User',
-  //   action: 'update',
-  //   possession: 'any',
-  // })
-  // async updateUser(@graphql.Args() args: UpdateUserArgs): Promise<User | null> {
-  //   try {
-  //     return await this.service.update({ where: { id: args.id }, data: args });
-  //   } catch (error) {
-  //     if (isRecordNotFoundError(error)) {
-  //       throw new apollo.ApolloError(
-  //         `No resource was found for ${JSON.stringify(args.where)}`,
-  //       );
-  //     }
-  //     throw error;
-  //   }
-  // }
 }

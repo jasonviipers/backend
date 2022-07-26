@@ -52,8 +52,7 @@ export class AuthService {
 
   async signup(credentials: CredentialsRegister): Promise<UserInfo> {
     // Extract the user data from the body of the request
-    const { email, password, firstName, lastName, phone, address } =
-      credentials;
+    const { email, password, firstName, lastName, phone } = credentials;
     // Here we attempt to create a new user
     const user = await this.userService.create({
       data: {
@@ -62,7 +61,6 @@ export class AuthService {
         firstName,
         lastName,
         phone,
-        address,
         roles: ['user'], // Here we assign every new user the `[user]` role
       },
     });

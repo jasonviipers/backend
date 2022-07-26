@@ -55,9 +55,9 @@ export class UserService {
     });
   }
 
-  async delete(where: Prisma.UserWhereUniqueInput): Promise<User> {
-    return this.prisma.user.delete({
-      where,
-    });
+  async delete<T extends Prisma.UserDeleteArgs>(
+    args: Prisma.SelectSubset<T, Prisma.UserDeleteArgs>
+  ): Promise<User> {
+    return this.prisma.user.delete(args);
   }
 }

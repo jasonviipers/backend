@@ -8,7 +8,6 @@ input Credentials {
 }
 
 input CredentialsRegister {
-  address: String!
   email: String!
   firstName: String!
   lastName: String!
@@ -17,21 +16,71 @@ input CredentialsRegister {
 }
 
 type Mutation {
-  deleteUser(id: Int!): User!
+  deleteUser(where: UserWhereUniqueInput!): User!
   login(credentials: Credentials!): UserInfo!
   signup(credentials: CredentialsRegister!): UserInfo!
+  updateUser(data: UpdateUserInput!, where: UserWhereUniqueInput!): User!
 }
 
 type Query {
-  user(id: Int!): User
-  users: [User!]!
+  user(where: UserWhereUniqueInput!): User
+  users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
+}
+
+enum QueryMode {
+  Default
+  Insensitive
+}
+
+enum SortOrder {
+  Asc
+  Desc
+}
+
+input StringFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+input StringNullableFilter {
+  contains: String
+  endsWith: String
+  equals: String
+  gt: String
+  gte: String
+  in: [String!]
+  lt: String
+  lte: String
+  mode: QueryMode
+  not: String
+  notIn: [String!]
+  startsWith: String
+}
+
+input UpdateUserInput {
+  address: String
+  email: String
+  firstName: String
+  lastName: String
+  password: String
+  phone: String
+  roles: [String!]
 }
 
 type User {
-  address: String!
   email: String!
   firstName: String!
-  id: Int!
+  id: String!
   lastName: String!
   password: String!
   phone: String!
@@ -42,4 +91,26 @@ type UserInfo {
   accessToken: String
   email: String!
   roles: [String!]!
+}
+
+input UserOrderByInput {
+  createdAt: SortOrder
+  firstName: SortOrder
+  id: SortOrder
+  lastName: SortOrder
+  password: SortOrder
+  phone: SortOrder
+  roles: SortOrder
+  updatedAt: SortOrder
+}
+
+input UserWhereInput {
+  firstName: StringNullableFilter
+  id: StringFilter
+  lastName: StringNullableFilter
+  phone: StringFilter
+}
+
+input UserWhereUniqueInput {
+  id: String!
 }
