@@ -71,15 +71,4 @@ export class UpdateUserInput {
     nullable: true,
   })
   phone?: string;
-
-  @ApiProperty({
-    required: false,
-    type: String,
-  })
-  @IsString()
-  @IsOptional()
-  @Field(() => String, {
-    nullable: true,
-  })
-  address?: string;
 }

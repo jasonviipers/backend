@@ -1,4 +1,3 @@
-import { Args, Int } from '@nestjs/graphql';
 import * as graphql from '@nestjs/graphql';
 import * as apollo from 'apollo-server-express';
 import * as nestAccessControl from 'nest-access-control';
@@ -64,7 +63,14 @@ export class UserResolver {
   async createUser(@graphql.Args() args: CreateUserArgs): Promise<User> {
     return await this.service.create({
       ...args,
-      data: args.data,
+      data: {
+        email: args.data.email,
+        password: args.data.password,
+        roles: args.data.roles,
+        firstName: args.data.firstName,
+        lastName: args.data.lastName,
+        phone: args.data.phone,
+      },
     });
   }
 

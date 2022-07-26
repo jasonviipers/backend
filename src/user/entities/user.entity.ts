@@ -15,11 +15,11 @@ export class User {
   password: string;
 
   @Field(() => String)
+  email: string;
+
+  @Field(() => String)
   phone: string;
 
   @Field(() => [String])
   roles: Array<string>;
-
-  @Field(() => String)
-  email: string;
 }

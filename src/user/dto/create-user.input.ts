@@ -5,32 +5,32 @@ import { IsString, IsPhoneNumber } from 'class-validator';
 @InputType()
 export class CreateUserInput {
   @ApiProperty({
-    required: false,
+    required: true,
     type: String,
   })
   @IsString()
   @Field(() => String, {
-    nullable: true,
+    nullable: false,
   })
   firstName?: string | null;
 
   @ApiProperty({
-    required: false,
+    required: true,
     type: String,
   })
   @IsString()
   @Field(() => String, {
-    nullable: true,
+    nullable: false,
   })
   lastName?: string | null;
 
   @ApiProperty({
-    required: false,
+    required: true,
     type: String,
   })
   @IsString()
   @Field(() => String, {
-    nullable: true,
+    nullable: false,
   })
   email?: string | null;
 

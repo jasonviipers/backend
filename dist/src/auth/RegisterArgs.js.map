@@ -1,0 +1,1 @@
+{"version":3,"file":"RegisterArgs.js","sourceRoot":"","sources":["../../../src/auth/RegisterArgs.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,6CAAkD;AAClD,2EAAwE;AAGxE,IAAa,YAAY,GAAzB,MAAa,YAAY;CAGxB,CAAA;AADC;IADC,IAAA,eAAK,EAAC,GAAG,EAAE,CAAC,yCAAmB,EAAE,EAAE,QAAQ,EAAE,KAAK,EAAE,CAAC;8BACxC,yCAAmB;iDAAC;AAFvB,YAAY;IADxB,IAAA,kBAAQ,GAAE;GACE,YAAY,CAGxB;AAHY,oCAAY"}

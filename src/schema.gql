@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateUserInput {
+  email: String!
+  firstName: String!
+  lastName: String!
+  password: String!
+  phone: String!
+  roles: [String!]!
+}
+
 input Credentials {
   email: String!
   password: String!
@@ -16,6 +25,7 @@ input CredentialsRegister {
 }
 
 type Mutation {
+  createUser(data: CreateUserInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User!
   login(credentials: Credentials!): UserInfo!
   signup(credentials: CredentialsRegister!): UserInfo!
@@ -68,7 +78,6 @@ input StringNullableFilter {
 }
 
 input UpdateUserInput {
-  address: String
   email: String
   firstName: String
   lastName: String

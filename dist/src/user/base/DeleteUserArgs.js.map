@@ -1,0 +1,1 @@
+{"version":3,"file":"DeleteUserArgs.js","sourceRoot":"","sources":["../../../../src/user/base/DeleteUserArgs.ts"],"names":[],"mappings":";;;;;;;;;;;;AAAA,6CAAkD;AAClD,iEAA8D;AAG9D,IAAM,cAAc,GAApB,MAAM,cAAc;CAGnB,CAAA;AADC;IADC,IAAA,eAAK,EAAC,GAAG,EAAE,CAAC,2CAAoB,EAAE,EAAE,QAAQ,EAAE,KAAK,EAAE,CAAC;8BAC/C,2CAAoB;6CAAC;AAFzB,cAAc;IADnB,IAAA,kBAAQ,GAAE;GACL,cAAc,CAGnB;AAEQ,wCAAc"}

@@ -56,7 +56,7 @@ export class UserService {
   }
 
   async delete<T extends Prisma.UserDeleteArgs>(
-    args: Prisma.SelectSubset<T, Prisma.UserDeleteArgs>
+    args: Prisma.SelectSubset<T, Prisma.UserDeleteArgs>,
   ): Promise<User> {
     return this.prisma.user.delete(args);
   }
