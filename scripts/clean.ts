@@ -6,19 +6,19 @@ import { PrismaClient } from '@prisma/client';
 
 if (require.main === module) {
   clean().catch((error) => {
-    console.error(error);
+    
     process.exit(1);
   });
 }
 
 async function clean() {
-  console.info('Dropping all tables in the database...');
+  
   const prisma = new PrismaClient();
   const tables = await getTables(prisma);
   const types = await getTypes(prisma);
   await dropTables(prisma, tables);
   await dropTypes(prisma, types);
-  console.info('Cleaned database successfully');
+  
   await prisma.$disconnect();
 }
 
