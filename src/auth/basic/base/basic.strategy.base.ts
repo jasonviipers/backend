@@ -10,11 +10,12 @@ export class BasicStrategyBase
   implements IAuthStrategy
 {
   constructor(protected readonly authService: AuthService) {
-    super();
+    //using email as username for basic auth
+    super({ usernameField: 'email' });
   }
 
-  async validate(email: string, password: string): Promise<UserInfo> {
-    const user = await this.authService.validateUser(email, password);
+  async validate(username: string, password: string): Promise<UserInfo> {
+    const user = await this.authService.validateUser(username, password);
     if (!user) {
       throw new UnauthorizedException();
     }

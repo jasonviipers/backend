@@ -2,6 +2,11 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateFreelancerInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 input CreateUserInput {
   email: String!
   firstName: String!
@@ -24,15 +29,24 @@ input CredentialsRegister {
   phone: String!
 }
 
+type Freelancer {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
 type Mutation {
+  createFreelancer(createFreelancerInput: CreateFreelancerInput!): Freelancer!
   createUser(data: CreateUserInput!): User!
   deleteUser(where: UserWhereUniqueInput!): User!
   login(credentials: Credentials!): UserInfo!
+  removeFreelancer(id: Int!): Freelancer!
   signup(credentials: CredentialsRegister!): UserInfo!
+  updateFreelancer(updateFreelancerInput: UpdateFreelancerInput!): Freelancer!
   updateUser(data: UpdateUserInput!, where: UserWhereUniqueInput!): User!
 }
 
 type Query {
+  freelancer(id: Int!): Freelancer!
   user(where: UserWhereUniqueInput!): User
   users(orderBy: [UserOrderByInput!], skip: Float, take: Float, where: UserWhereInput): [User!]!
 }
@@ -75,6 +89,12 @@ input StringNullableFilter {
   not: String
   notIn: [String!]
   startsWith: String
+}
+
+input UpdateFreelancerInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
 }
 
 input UpdateUserInput {

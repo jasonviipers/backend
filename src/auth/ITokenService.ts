@@ -1,3 +1,3 @@
 export interface ITokenService {
-  createToken: (username: string, password: string) => Promise<string>;
+  createToken: (email: string, password: string) => Promise<string>;
 }

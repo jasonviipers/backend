@@ -1,6 +1,6 @@
 import { InputType, Field } from '@nestjs/graphql';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsOptional } from 'class-validator';
+import { IsString, IsOptional, IsPhoneNumber, IsEmail } from 'class-validator';
 
 @InputType()
 export class UpdateUserInput {
@@ -59,6 +59,7 @@ export class UpdateUserInput {
   @Field(() => String, {
     nullable: true,
   })
+  @IsEmail()
   email?: string;
 
   @ApiProperty({
@@ -70,5 +71,6 @@ export class UpdateUserInput {
   @Field(() => String, {
     nullable: true,
   })
+  @IsPhoneNumber()
   phone?: string;
 }

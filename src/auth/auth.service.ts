@@ -76,4 +76,19 @@ export class AuthService {
       ...user,
     };
   }
+
+  // async logout(userId: string): Promise<boolean> {
+  //   const user = await this.userService.findOne({
+  //     where: { id: userId },
+  //   });
+  //   if (user) {
+  //     await this.userService.update({
+  //       where: { id: userId },
+  //       data: {
+  //         token: null,
+  //       },
+  //     });
+  //     return true;
+  //   }
+  // }
 }

@@ -14,14 +14,15 @@ model User {
   email       String        @unique
   password    String
   phone       String        @unique
-  address     Address[]
   roles       String[]
-  freelancer  Freelancer[]
-  contract    Contract[]
-  mission     Mission[]
-  Recruitment Recruitment[]
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @default(now())
+  address     Address[]
+  contract    Contract[]
+  freelancer  Freelancer[]
+  mission     Mission[]
+  Recruitment Recruitment[]
+  Payment     Payment[]
 
   @@map("users")
 }
@@ -33,12 +34,12 @@ model Freelancer {
   iban           String        @unique
   skills         String[]
   certificates   String[]
-  User           User?         @relation(fields: [userId], references: [id])
   userId         String?
-  Availability   Availability? @relation(fields: [availabilityId], references: [id])
   availabilityId Int?
   createdAt      DateTime      @default(now())
   updatedAt      DateTime      @default(now())
+  Availability   Availability? @relation(fields: [availabilityId], references: [id])
+  User           User?         @relation(fields: [userId], references: [id])
 
   @@map("freelancers")
 }
@@ -49,13 +50,12 @@ model Contract {
   description String
   signature   String
   status      String[]
-  mission     Mission[]
   price       Int
-  User      User?    @relation(fields: [userId], references: [id])
-  userId    String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-
+  userId      String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now())
+  User        User?     @relation(fields: [userId], references: [id])
+  mission     Mission[]
 
   @@map("contracts")
 }
@@ -65,13 +65,13 @@ model Mission {
   title       String
   description String
   price       Int
-  location    Location[]
-  User        User?      @relation(fields: [userId], references: [id])
   userId      String?
-  Contract    Contract?  @relation(fields: [contractId], references: [id])
   contractId  Int?
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @default(now())
+  Contract    Contract?  @relation(fields: [contractId], references: [id])
+  User        User?      @relation(fields: [userId], references: [id])
+  location    Location[]
 
   @@map("missions")
 }
@@ -81,9 +81,9 @@ model Availability {
   start       DateTime
   end         DateTime
   isAvailable Boolean
-  Freelancer  Freelancer[]
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @default(now())
+  Freelancer  Freelancer[]
 
   @@map("availabilities")
 }
@@ -94,10 +94,10 @@ model Recruitment {
   description String
   price       Int
   location    String
-  User        User?    @relation(fields: [userId], references: [id])
   userId      String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
+  User        User?    @relation(fields: [userId], references: [id])
 
   @@map("recruitments")
 }
@@ -108,10 +108,10 @@ model Address {
   city      String
   zip       String
   country   String
-  User      User?    @relation(fields: [userId], references: [id])
   userId    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
 
   @@map("addresses")
 }
@@ -120,10 +120,21 @@ model Location {
   id        Int      @id @default(autoincrement())
   latitude  Float
   longitude Float
-  Mission   Mission? @relation(fields: [missionId], references: [id])
   missionId Int?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
+  Mission   Mission? @relation(fields: [missionId], references: [id])
 
   @@map("locations")
+}
+
+model Payment {
+  id        Int      @id @default(autoincrement())
+  amount    Int
+  userId    String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+  User      User?    @relation(fields: [userId], references: [id])
+
+  @@map("payments")
 }

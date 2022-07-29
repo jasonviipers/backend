@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { InputType, Field } from '@nestjs/graphql';
-import { IsMobilePhone, IsString } from 'class-validator';
+import { IsEmail, IsMobilePhone, IsString } from 'class-validator';
 import { User } from 'src/user/entities/user.entity';
 
 @InputType()
@@ -25,16 +25,16 @@ export class CredentialsRegister implements Partial<User> {
     required: true,
     type: String,
   })
+  @IsEmail()
   @Field(() => String, { nullable: false })
-  @IsString()
   email!: string;
 
   @ApiProperty({
     required: true,
     type: String,
   })
-  @Field(() => String, { nullable: false })
   @IsMobilePhone()
+  @Field(() => String, { nullable: false })
   phone!: string;
 
   @ApiProperty({
@@ -44,12 +44,4 @@ export class CredentialsRegister implements Partial<User> {
   @Field(() => String, { nullable: false })
   @IsString()
   password!: string;
-
-  // @ApiProperty({
-  //   required: true,
-  //   type: String,
-  // })
-  // @Field(() => String, { nullable: false })
-  // @IsString()
-  // address?: string;
 }
